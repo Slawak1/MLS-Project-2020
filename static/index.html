@@ -13,31 +13,73 @@
     </head>
     <body>
         <div>
-
             <!--  Content -->
             <div id="right-box">
                 <div id="cont2" >
                     <p> Please enter a Wind speed </p>
-                    <h2>Register</h2>
-                        <table id = "register_form">
-                            <tr>
-                                <td>Wind:</td>
-                                <td><input type = "text" id = "input"></td>
-                            </tr>
+                    <!---  ##################      -->
+                    <div style="float: left; padding-right: 20px;">
 
-                    <div class="row">
-                        <div class="col-sm">
-                            <button type="button" class="btn btn-success" id="polynomial" onClick="doLogin()">Polynomial model</button>
+                        <div class = "row" style="width:300px; margin-left: 0px; ">
+                            <div class="col-sm" >
+                                Wind:
+                                <input id="input_1" type="text" placeholder="Enter Wind Speed in m/s...">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-left: 0px;">
+                            <div class="col-sm">
+                                <button type="button" class="btn btn-success" id="polynomial" onClick="sendWind_poly()">Polynomial model</button>
+                                
+                            </div>
+                        </div>
+
+                        
+
+
+                        <div class = "row" style="width:300px; margin-left: 0px;">
+                            <div class="col-sm">
+                            <input class="form-control" id="output_1" type="text" placeholder="Predicted Power Output in kW..." readonly></input>
+                            </div>
                         </div>
                     </div>
 
+                    <!---  ##################  -->
 
-                    <div class = "row" style="width:250px">
-                        <div class="col-sm">
-                          <input class="form-control" id="output" type="text" placeholder="Predicted Power Output in W..." readonly>
+                    <div style="float: left; padding-right: 20px;">
+                        <div class = "row" style="width:300px; margin-left: 0px;">
+                            <div class = "row" style="width:300px">
+                                <div class="col-sm">
+                                    Wind:
+                                    <input id="input_2" type="text" placeholder="Enter Wind Speed in m/s...">
+    
+                                </div>
+                            </div>
+
                         </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                
+                                <button type="button" class="btn btn-success" id="polynomial" onClick="sendWind_linear()">Linear model</button>
+                            </div>
+                        </div>
+
+                        
+
+
+                        <div class = "row" style="width:300px">
+                            <div class="col-sm">
+                            <input class="form-control" id="output_2" type="text" placeholder="Predicted Power Output in kW..." readonly></input>
+                            </div>
+                        </div>
+
+
+
                     </div>  
                 </div>
+
             </div>   
         </div>
         
@@ -57,8 +99,8 @@
 
 
 
-        function sendWind(){
-            var wind = document.getElementById("input").value 
+        function sendWind_poly(){
+            var wind = document.getElementById("input_1").value 
             
             $.ajax({
             method:"POST",
@@ -67,7 +109,8 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function(data) { 
-                console.log(data);                    
+                console.log(data);
+                $('#output_1').val(data.power);              
             },
             error: function(jqXHR) {
                 alert("error: " + jqXHR.status);
@@ -76,36 +119,27 @@
         })
         }
 
-        function doLogin() {
-            var wind = document.getElementById("input").value 
-                data = {"wind":wind}
-                console.log(data)
-                
 
-                $.ajax({
-                    url:"http://127.0.0.1:5000/login",
-                    data: JSON.stringify(data),
-                    method:"POST",
-                    dataType:"JSON",
-                    contentType: "application/json; charset=utf-8",
-                    success: function(result){
-                        
-                        if (result == 1){
-
-                            
-                            windows.alert(result)
-                            
-                            
-                        } else {
-                            window.alert("Wring username or password");
-                        }
-                    },
-                    error: function(xhr, status, error){
-                        
-                        console.log("error "+ error + " code "+ status)
-                   }
-                })
+        function sendWind_linear(){
+            var wind = document.getElementById("input_2").value 
+            
+            $.ajax({
+            method:"POST",
+            data:JSON.stringify({"wind":wind}),
+            url: "/linear",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data) { 
+                console.log(data);
+                $('#output_2').val(data.power);              
+            },
+            error: function(jqXHR) {
+                alert("error: " + jqXHR.status);
+                console.log(jqXHR);
             }
+        })
+        }
+
 
     </script>
 
