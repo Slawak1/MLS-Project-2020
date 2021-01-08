@@ -33,7 +33,7 @@ def poly():
     if power < 0:
         power = 0
 
-    return {"power":power,"score":loaded_model.score()}
+    return {"power":power}
 
 # Simple Linear Regression
 @app.route("/linear", methods=["POST"])
