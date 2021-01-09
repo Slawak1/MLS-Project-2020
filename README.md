@@ -34,7 +34,7 @@ Follow these steps to run the application
 1. Clone repository: https://github.com/Slawak1/MLS-Project-2020
 2. Navigate to repository folder 
 3. Create Docker image: <code> docker build -t ml_server . </code>
-4. Run Docker image: <code> docker -d -p 5000:5000 ml_server </code>
+4. Run Docker image: <code> docker run -d -p 5000:5000 ml_server </code>
 5. Open http://127.0.0.1:5000/ in web browser
 6. To stop server display list of containers: <code> docker container ls </code>
 7. Copy <code>CONTAINER ID</code>
